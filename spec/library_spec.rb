@@ -47,88 +47,50 @@ RSpec.describe Author do
 
     expect(dpl.publication_time_frame_for(harper_lee)).to eq({:start=>"1960", :end=>"1960"})
   end
+
+  it 'checks out books' do
+    dpl = Library.new("Denver Public Library")
+    charlotte_bronte = Author.new({first_name: "Charlotte", last_name: "Bronte"})
+    jane_eyre = charlotte_bronte.write("Jane Eyre", "October 16, 1847")
+    villette = charlotte_bronte.write("Villette", "1853")
+    harper_lee = Author.new({first_name: "Harper", last_name: "Lee"})
+    mockingbird = harper_lee.write("To Kill a Mockingbird", "July 11, 1960")
+
+    # This book cannot be checked out because it doesn't exist in the library
+    expect(dpl.checkout(mockingbird)).to eq(false)
+    # This book cannot be checked out because it doesn't exist in the library
+    expect(dpl.checkout(jane_eyre)).to eq(false)
+  end
 end
 
-
-#
-# Iteration 4
-# Use TDD to implement the following methods on the Library class:
-#
-# The checkout method takes a Book as an argument. It should return false if a Book does not exist in the library or it is already checked out. Otherwise, it should return true indicating that the book has been checked out.
-#
-# The checked_out_books method should return an array of books that are currently checked out.
-#
-# The return method takes a Book as an argument. Calling this method means that a book is no longer checked out.
-#
-# The most_popular_book method should return the book that has been checked out the most.
-#
-# dpl = Library.new("Denver Public Library")
-# #=> #<Library:0x00007f8c021685b0...>
-#
-# charlotte_bronte = Author.new({first_name: "Charlotte", last_name: "Bronte"})
-# #=> #<Author:0x00007f8c01429a98...>
-#
-# jane_eyre = charlotte_bronte.write("Jane Eyre", "October 16, 1847")
-# #=> #<Book:0x00007f8c01433138...>
-#
-# villette = charlotte_bronte.write("Villette", "1853")
-# #=> #<Book:0x00007f8c021d84c8...>
-#
-# harper_lee = Author.new({first_name: "Harper", last_name: "Lee"})
-# #=> #<Author:0x00007f8c01442520...>
-#
-# mockingbird = harper_lee.write("To Kill a Mockingbird", "July 11, 1960")
-# #=> #<Book:0x00007f8c019506c0...>
-#
-# # This book cannot be checked out because it doesn't exist in the library
-# dpl.checkout(mockingbird)
-# #=> false
-#
-# # This book cannot be checked out because it doesn't exist in the library
-# dpl.checkout(jane_eyre)
-# #=> false
-#
 # dpl.add_author(charlotte_bronte)
-#
 # dpl.add_author(harper_lee)
 #
-# dpl.checkout(jane_eyre)
-# #=> true
+# expect(dpl.checkout(jane_eyre)).to eq(true)
 #
-# dpl.checked_out_books
-# #=> [#<Book:0x00007f8c01433138...>]
+# expect(dpl.checked_out_books).to eq([jane_eyre])
 #
 # # This book cannot be checked out because it is currently checked out
-# dpl.checkout(jane_eyre)
-# #=> false
+# expect(dpl.checkout(jane_eyre)).to eq(false)
 #
 # dpl.return(jane_eyre)
-#
 # # Returning a book means it should no longer be checked out
-# dpl.checked_out_books
-# #=> []
+# expect(dpl.checked_out_books).to eq([])
 #
-# dpl.checkout(jane_eyre)
-# #=> true
+# expect(dpl.checkout(jane_eyre)).to eq(true)
 #
-# dpl.checkout(villette)
-# #=> true
+# expect(dpl.checkout(villette)).to eq(true)
 #
-# dpl.checked_out_books
-# #=> [#<Book:0x00007f8c01433138...>, #<Book:0x00007f8c021d84c8...>]
+# expect(dpl.checked_out_books).to eq([jane_eyre, villette])
 #
-# dpl.checkout(mockingbird)
-# #=> true
+# expect(dpl.checkout(mockingbird)).to eq(true)
 #
 # dpl.return(mockingbird)
 #
-# dpl.checkout(mockingbird)
-# #=> true
+# expect(dpl.checkout(mockingbird)).to eq(true)
 #
 # dpl.return(mockingbird)
 #
-# dpl.checkout(mockingbird)
-# #=> true
+# expect(dpl.checkout(mockingbird)).to eq(true)
 #
-# dpl.most_popular_book
-# #=> #<Book:0x00007f8c019506c0...>
+# expect(dpl.most_popular_book).to eq(mockingbird)
