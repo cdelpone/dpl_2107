@@ -3,7 +3,7 @@
 
 ## Preparation
 
-* Fork this Repository
+* Fork this Repository 
 * Clone YOUR fork
 * Compete the activity below
 * Push your solution to your fork
